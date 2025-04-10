@@ -1,0 +1,157 @@
+CODE:
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = [] 
+        nums.sort() 
+
+        for i, a in enumerate(nums):
+            if a > 0:
+                break
+            
+            if i > 0 and a == nums[i - 1]:
+                continue
+            
+            l, r = i + 1, len(nums) - 1 
+            while l < r:
+                threeSum = a + nums[l] + nums[r] 
+                if threeSum > 0:
+                    r -= 1 
+                elif threeSum < 0:
+                    l += 1 
+                else:
+                    res.append([a, nums[l], nums[r]]) 
+                    l += 1
+                    r -= 1
+                    while nums[l] == nums[l - 1] and l < r:
+                        l += 1
+        return res
+
+
+EXPLANATION : 
+🧠 Problem Statement: 3Sum
+You're given a list nums. You need to find all unique triplets [a, b, c] such that:
+
+r
+Copy code
+a + b + c == 0
+You must return only unique triplets, even if the input has duplicates.
+
+✅ Algorithm Used:
+Sorting
+
+Two Pointers Technique (inside a for loop)
+
+Duplicate Skipping
+
+🔍 Code Explanation
+python
+Copy code
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+The function threeSum takes a list nums and returns a list of unique triplets that sum up to 0.
+
+📌 Step 1: Prepare
+python
+Copy code
+        res = [] 
+        nums.sort()
+res will store the final list of triplets.
+
+nums.sort() is needed because the two-pointers technique works only on sorted arrays, and it also helps us skip duplicates easily.
+
+🔁 Step 2: Loop through each number
+python
+Copy code
+        for i, a in enumerate(nums):
+Loop through each number in the list.
+
+Let a = nums[i] be the first element of the triplet.
+
+⛔ Optimization #1: Break if current number is > 0
+python
+Copy code
+            if a > 0:
+                break
+If the first number is greater than 0, stop the loop.
+Because with all sorted numbers, any triplet with a > 0 will make the total sum greater than 0, and we can’t get 0 anymore.
+
+⛔ Optimization #2: Skip duplicate values for a
+python
+Copy code
+            if i > 0 and a == nums[i - 1]:
+                continue
+Skip the current number if it’s the same as the previous one — this avoids duplicate triplets.
+
+🧠 Step 3: Two Pointers for remaining elements
+python
+Copy code
+            l, r = i + 1, len(nums) - 1
+l is the left pointer (right after a)
+
+r is the right pointer (end of the list)
+
+We'll move them toward each other to find pairs that sum with a to 0.
+
+🔁 While Loop
+python
+Copy code
+            while l < r:
+                threeSum = a + nums[l] + nums[r]
+Calculate the total of the triplet.
+
+⚖️ Step 4: Compare with 0
+python
+Copy code
+                if threeSum > 0:
+                    r -= 1
+If sum too big, move r left to reduce the sum.
+
+python
+Copy code
+                elif threeSum < 0:
+                    l += 1
+If sum too small, move l right to increase the sum.
+
+✅ Step 5: Found a Valid Triplet
+python
+Copy code
+                else:
+                    res.append([a, nums[l], nums[r]])
+                    l += 1
+                    r -= 1
+If sum equals 0, add it to the result list.
+
+Move both pointers to check for next valid pairs.
+
+⛔ Step 6: Skip duplicates for second number
+python
+Copy code
+                    while nums[l] == nums[l - 1] and l < r:
+                        l += 1
+After moving l, if the next nums[l] is the same as previous, skip it to avoid duplicate triplets.
+
+🔚 Final Step: Return the result
+python
+Copy code
+        return res
+🧮 Example:
+Input:
+
+python
+Copy code
+nums = [-1, 0, 1, 2, -1, -4]
+Sorted: [-4, -1, -1, 0, 1, 2]
+
+Output:
+
+python
+Copy code
+[[-1, -1, 2], [-1, 0, 1]]
+⏱️ Time and Space Complexity
+Time Complexity: O(n^2)
+
+Outer loop: O(n)
+
+Inner two-pointer loop: O(n)
+
+Space Complexity: O(1) (ignoring result list)
