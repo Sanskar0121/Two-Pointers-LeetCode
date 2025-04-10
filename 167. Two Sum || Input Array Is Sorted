@@ -1,0 +1,114 @@
+CODE : 
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        l, r = 0, len(numbers) - 1 
+
+        while l < r:
+            curSum = numbers[l] + numbers[r] 
+
+            if curSum > target:
+                r -= 1 
+            elif curSum < target:
+                l += 1
+            else:
+                return [l + 1, r + 1] 
+        return [] 
+
+  EXPLANATION : 
+🧠 Problem Statement: Two Sum II – Input Array Is Sorted
+You are given:
+
+A sorted list of integers (numbers)
+
+A target integer
+
+You need to find two numbers in the list that add up to the target and return their 1-based indices as a list.
+
+✅ Algorithm Used: Two Pointers Technique
+This is a classic two-pointers algorithm, which is very efficient for sorted arrays.
+
+🔍 Code Breakdown
+python
+Copy code
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+Defines a method twoSum that takes:
+
+numbers: a sorted list of integers
+
+target: the desired sum Returns a list of two 1-based indices of the numbers that add up to target.
+
+📍 Step 1: Initialize Two Pointers
+python
+Copy code
+        l, r = 0, len(numbers) - 1
+l is the left pointer (start of the array)
+
+r is the right pointer (end of the array)
+
+We'll move them inward depending on the sum.
+
+🔁 Step 2: While Loop to Traverse
+python
+Copy code
+        while l < r:
+Continue until both pointers meet.
+
+➕ Step 3: Calculate Current Sum
+python
+Copy code
+            curSum = numbers[l] + numbers[r]
+Add the values at the left and right pointers.
+
+❌🔀 Step 4: Compare With Target
+python
+Copy code
+            if curSum > target:
+                r -= 1  # Move right pointer left
+If sum is too big, move the right pointer left (to a smaller number).
+
+python
+Copy code
+            elif curSum < target:
+                l += 1  # Move left pointer right
+If sum is too small, move the left pointer right (to a bigger number).
+
+✅ Step 5: Found the Answer!
+python
+Copy code
+            else:
+                return [l + 1, r + 1]
+If the sum matches the target, return the indices.
+
++1 because the problem asks for 1-based indexing (i.e., index starts from 1, not 0).
+
+🔚 Step 6: Fallback Return
+python
+Copy code
+        return []
+Just a safety return (though in most problems, a solution is guaranteed to exist).
+
+⏱️ Time & Space Complexity
+Time Complexity: O(n) — Each pointer moves at most once through the list.
+
+Space Complexity: O(1) — No extra space used.
+
+📌 Why Two Pointers Work Here
+Because the array is sorted, we can:
+
+Start from both ends
+
+Eliminate possibilities based on the current sum
+
+Avoid using nested loops (O(n^2))
+
+📘 Example:
+python
+Copy code
+numbers = [2, 7, 11, 15]
+target = 9
+l = 0, r = 3: 2 + 15 = 17 → too big → r -= 1
+
+l = 0, r = 2: 2 + 11 = 13 → too big → r -= 1
+
+l = 0, r = 1: 2 + 7 = 9 ✅ → return [1, 2] 
