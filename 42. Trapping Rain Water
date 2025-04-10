@@ -1,0 +1,135 @@
+CODE : 
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        if not height:
+            return 0 
+        
+        l, r = 0, len(height) - 1 
+        leftmax, rightmax = height[l], height[r] 
+        res = 0 
+        while l < r:
+            if leftmax < rightmax:
+                l += 1 
+                leftmax = max(leftmax, height[l]) 
+                res += leftmax - height[l] 
+            else:
+                r -= 1 
+                rightmax = max(rightmax, height[r]) 
+                res += rightmax - height[r] 
+        return res    
+
+EXPLANATION : 
+🧠 Problem Statement: Trapping Rain Water
+You're given an array height where each element represents the height of a bar.
+
+You need to calculate how much rainwater can be trapped between the bars after raining.
+
+📌 Key Idea:
+At any index i, the water that can be trapped is:
+
+scss
+Copy code
+min(maxLeft, maxRight) - height[i]
+Where:
+
+maxLeft is the tallest bar to the left
+
+maxRight is the tallest bar to the right
+
+But calculating this for each bar takes O(n²). So instead, we use two pointers smartly to do it in O(n).
+
+✅ Algorithm Used: Two Pointers + Greedy
+🔍 Code Explanation
+python
+Copy code
+class Solution:
+    def trap(self, height: List[int]) -> int:
+Define the function that takes a list height and returns the total amount of water trapped.
+
+📌 Step 1: Edge Case – Empty List
+python
+Copy code
+        if not height:
+            return 0
+If the list is empty, no water can be trapped.
+
+📍 Step 2: Initialize Pointers and Variables
+python
+Copy code
+        l, r = 0, len(height) - 1
+        leftmax, rightmax = height[l], height[r]
+        res = 0
+l: left pointer
+
+r: right pointer
+
+leftmax: max height seen so far from the left
+
+rightmax: max height seen so far from the right
+
+res: result (total water trapped)
+
+🔁 Step 3: While Loop
+python
+Copy code
+        while l < r:
+Loop until pointers meet.
+
+⚖️ Step 4: Compare leftmax and rightmax
+python
+Copy code
+            if leftmax < rightmax:
+We always move the pointer from the smaller side because we’re guaranteed that the water trapped depends on the smaller boundary.
+
+➡️ Case A: Move Left Pointer
+python
+Copy code
+                l += 1
+                leftmax = max(leftmax, height[l])
+                res += leftmax - height[l]
+Move l right
+
+Update leftmax
+
+Water trapped at l: leftmax - height[l]
+(if height[l] is less than leftmax, it traps water)
+
+⬅️ Case B: Move Right Pointer
+python
+Copy code
+            else:
+                r -= 1
+                rightmax = max(rightmax, height[r])
+                res += rightmax - height[r]
+Move r left
+
+Update rightmax
+
+Water trapped at r: rightmax - height[r]
+
+🔚 Step 5: Return the Result
+python
+Copy code
+        return res
+After the loop, return the total water trapped.
+
+📘 Example
+python
+Copy code
+height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Visual representation:
+
+diff
+Copy code
+      |
+  |   | |       |
+  | | | |   | | |
+-----------------
+Trapped water = 6
+
+The function will return 6.
+
+⏱️ Time and Space Complexity
+Time Complexity: O(n) – one pass with two pointers
+
+Space Complexity: O(1) – constant space (no extra arrays used) 
