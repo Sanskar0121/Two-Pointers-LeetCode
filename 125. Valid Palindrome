@@ -1,0 +1,116 @@
+CODE : 
+
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        l, r = 0, len(s) - 1
+
+        while l < r:
+            while l < r and not self.alphaNum(s[l]):
+                l += 1
+            while r > l and not self.alphaNum(s[r]):
+                r -= 1 
+            if s[l].lower() != s[r].lower():
+                return False
+            l, r = l + 1, r - 1
+        return True 
+
+    def alphaNum(self, c):
+        return (ord('A') <= ord(c) <= ord('Z') or 
+                ord('a') <= ord(c) <= ord('z') or 
+                ord('0') <= ord(c) <= ord('9'))
+
+  Explanation : 
+  ✅ What is a Palindrome?
+A palindrome is a word, phrase, number, or sequence of characters that reads the same forward and backward after removing non-alphanumeric characters and ignoring cases.
+
+Example:
+
+"A man, a plan, a canal: Panama" → is a palindrome.
+
+"race a car" → is not a palindrome.
+
+🔍 Code Explanation
+python
+Copy code
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+This defines a method isPalindrome inside a class Solution, which takes a string s as input and returns True if it's a palindrome and False otherwise.
+
+📍 Initialize Two Pointers:
+python
+Copy code
+        l, r = 0, len(s) - 1
+l is the left pointer, starting at the beginning of the string.
+
+r is the right pointer, starting at the end.
+
+We'll move them inward while checking characters.
+
+🔁 Main While Loop:
+python
+Copy code
+        while l < r:
+As long as the left pointer is less than the right one, keep looping.
+
+⏩ Skip Non-Alphanumeric Characters:
+python
+Copy code
+            while l < r and not self.alphaNum(s[l]):
+                l += 1
+            while r > l and not self.alphaNum(s[r]):
+                r -= 1 
+If the current left character (s[l]) is not alphanumeric, skip it (l += 1).
+
+Similarly, skip non-alphanumeric characters on the right side (r -= 1).
+
+🆚 Compare Characters:
+python
+Copy code
+            if s[l].lower() != s[r].lower():
+                return False
+Convert both characters to lowercase and compare.
+
+If they don't match, it's not a palindrome, so return False.
+
+➡ Move Inward:
+python
+Copy code
+            l, r = l + 1, r - 1
+If characters matched, move both pointers inward and continue.
+
+✅ Final Return:
+python
+Copy code
+        return True
+If we made it through the whole string without mismatches, it's a valid palindrome.
+
+🔤 Helper Method: alphaNum
+python
+Copy code
+    def alphaNum(self, c):
+        return (ord('A') <= ord(c) <= ord('Z') or 
+                ord('a') <= ord(c) <= ord('z') or 
+                ord('0') <= ord(c) <= ord('9'))
+This function checks whether a character is alphanumeric:
+
+Checks if c is between 'A' and 'Z' (uppercase letter)
+
+Or between 'a' and 'z' (lowercase letter)
+
+Or between '0' and '9' (digit)
+
+It uses ord() which returns the Unicode value of a character.
+
+✅ Example Run:
+Input:
+
+python
+Copy code
+s = "A man, a plan, a canal: Panama"
+Output:
+
+python
+Copy code
+True
+Because when cleaned and lowercased:
+"amanaplanacanalpanama" is a palindrome. 
